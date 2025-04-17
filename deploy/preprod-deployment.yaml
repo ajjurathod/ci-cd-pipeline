@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-preprod
+  labels:
+    env: preprod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp-preprod
+  template:
+    metadata:
+      labels:
+        app: myapp-preprod
+    spec:
+      containers:
+        - name: myapp
+          image: docker.io/myuser/my-app:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-preprod-service
+spec:
+  selector:
+    app: myapp-preprod
+  ports:
+    - port: 80
+      targetPort: 5000
+  type: NodePort    
