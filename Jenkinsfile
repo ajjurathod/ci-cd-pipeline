@@ -10,6 +10,11 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ajjurathod/ci-cd-pipeline.git'
             }
         }
+        stage('Run Unit Tests') {    
+            steps {
+                sh 'pytest tests/'   
+            }
+        }
         stage('Static Code Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
